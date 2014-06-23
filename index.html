@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Pony Express</title>
+		<style>
+			body {
+				margin: 0px 0px 40px 0px;	
+				background: #eee;
+				font-family: monospace;
+				font-size: 12px;
+			}
+
+			#content {
+				padding: 10px;
+			}
+
+			#message-bar {
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+				height: 40px;
+			}
+
+			input[type=text] {
+				font-family: monospace;
+				background: #333;
+				width: 100%;
+				height: 100%;
+				outline: none;
+				border: 0px;
+				font-size: 14px;
+				text-indent: 10px;
+				color: #fff;
+			}
+		</style>
+ 	</head>
+	<body>
+		<div id="content"></div>
+		<div id="message-bar">
+			<input id="command" type="text" name="message" placeholder="Message..." />
+		</div>
+
+		<script>
+			var server = prompt('Enter the server name', 'irc.freenode.net'),
+				nick = prompt('Enter your nick'),
+				channel = prompt('Enter the channel', '#nodejs'),
+				irc = require('irc');
+				client = new irc.Client(server, nick);
+				// client.join(channel)
+
+			client.addListener('raw', function(message) {
+				var contentNode = document.getElementById('content'),
+					messageNode = document.createElement('p'),
+					body = document.getElementsByTagName('body')[0];
+
+				messageNode.innerHTML = message.args.slice(1).join(' ');
+				contentNode.appendChild(messageNode);
+
+				body.scrollTop = body.scrollHeight
+			});
+
+			document.getElementById('command').addEventListener('keypress', function(e) {
+				if(e.keyCode != 13 || this.value == '') {
+					return;
+				}
+
+				client.say(channel, this.value)
+
+				this.value = '';
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "ponyexpress",
+  "description": "",
+  "main": "index.html",
+    "window": {
+      "toolbar": true,
+      "width": 800,
+      "height": 350
+  },
+  "dependencies": {
+  	"irc": "*"
+  }
+}
