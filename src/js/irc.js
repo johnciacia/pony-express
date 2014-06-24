@@ -1,6 +1,6 @@
 (function() {
 	"use strict"
-	var irc = require('irc'), client;
+	var irc = require('irc'), client, server, nick, channel;
 	jQuery(document).ready(function() {
 
 		$('input[name=message]').on('keypress', function(e) {
@@ -8,24 +8,25 @@
 				return;
 			}
 
-			client.say($(this).val())
+			client.say(channel, $(this).val());
 			$(this).val('');
 		});
 
 		$("form#connection").submit(function(e) {
 			e.preventDefault();
 
-			var $this = $(this),
-				server = $this.find('[name=hostname]').val(),
-				nick = $this.find('[name=nickname]').val(),
-				channel = $this.find('[name=channel]').val();
+			var $this = $(this);
+
+			server = $this.find('[name=hostname]').val(),
+			nick = $this.find('[name=nickname]').val();
+			channel = $this.find('[name=channel]').val();
 
 			if(server == "" || nick == "" || channel == "") {
 				return false;
 			}
 
 			client = new irc.Client(server, nick, {
-				channels: ['#test']
+				channels: [channel]
 			});
 
 			client.addListener('raw', function(message) {
