@@ -8,8 +8,14 @@
 				return;
 			}
 
-			client.say(channel, $(this).val());
-			$(this).val('');
+			var $this = $(this),
+				message = $this.val();
+
+			jQuery('#content').append('<p>'+message+'</p>');
+			var body = $('body')[0];
+			body.scrollTop = body.scrollHeight
+			client.say(channel, message);
+			$this.val('');
 		});
 
 		$("form#connection").submit(function(e) {
@@ -37,6 +43,7 @@
 
 				body.scrollTop = body.scrollHeight
 			});
+
 
 			$(this).parent().hide();
 		});
