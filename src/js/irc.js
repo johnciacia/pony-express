@@ -44,6 +44,9 @@
 				body.scrollTop = body.scrollHeight
 			});
 
+			client.addListener('error', function(message) {
+				console.log('error: ', message);
+			});
 
 			$(this).parent().hide();
 		});
